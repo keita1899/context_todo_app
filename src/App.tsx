@@ -1,24 +1,37 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import { AddTodoForm } from './components/AddTodoForm';
+import { Todo } from './components/Todo';
+import { TodoProps } from './types/todo';
 
-function App() {
+const App: React.VFC = () => {
+  const [todo, setTodo] = useState<TodoProps>({
+    id: 0,
+    text: '',
+    isCompleted: false,
+    isEdit: false,
+  })
+
+  const hasTodo: boolean = todo.id !== 0
+
+  const addTodo = (todoText: string): void => {
+    if (hasTodo) return
+
+    const newTodo: TodoProps = {
+      id: Math.random(),
+      text: todoText,
+      isCompleted: false,
+      isEdit: false,
+    }
+
+    setTodo(newTodo)
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {hasTodo && (
+        <Todo todo={todo} />
+      )}
+      <AddTodoForm onAddTodo={addTodo} disabled={hasTodo} />
     </div>
   );
 }
