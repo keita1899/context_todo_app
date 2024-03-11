@@ -4,13 +4,15 @@ import { Todo } from './components/Todo';
 import { TodoProps } from './types/todo';
 import { CompletedTodoList } from './components/CompletedTodoList';
 
+const initialState: TodoProps = {
+  id: 0,
+  text: '',
+  isCompleted: false,
+  isEdit: false,
+}
+
 const App: React.VFC = () => {
-  const [todo, setTodo] = useState<TodoProps>({
-    id: 0,
-    text: '',
-    isCompleted: false,
-    isEdit: false,
-  })
+  const [todo, setTodo] = useState<TodoProps>(initialState)
   const [completedTodos, setCompletedTodos] = useState<TodoProps[]>([])
 
   const hasTodo: boolean = todo.id !== 0
@@ -74,6 +76,11 @@ const App: React.VFC = () => {
     })
   }
 
+  const deleteCompletedTodo = (id: number) => {
+    const newCompletedTodos = completedTodos.filter(todo => todo.id !== id)
+    setCompletedTodos(newCompletedTodos)
+  }
+
   return (
     <div className="App">
       <button className="delete-button" onClick={deleteTodo} disabled={!hasTodo}>削除</button>
@@ -81,7 +88,7 @@ const App: React.VFC = () => {
         <Todo todo={todo} onCompleteTodo={completeTodo} onToggleEditTodo={toggleEditTodo} onSaveTodo={saveTodo} />
       )}
       <AddTodoForm onAddTodo={addTodo} disabled={hasTodo} />
-      <CompletedTodoList completedTodos={completedTodos} />
+      <CompletedTodoList completedTodos={completedTodos} onDeleteCompletedTodo={deleteCompletedTodo} />
     </div>
   );
 }
