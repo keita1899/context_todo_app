@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { AddTodoForm } from './components/AddTodoForm';
 import { Todo } from './components/Todo';
 import { TodoProps } from './types/todo';
+import { CompletedTodoList } from './components/CompletedTodoList';
 
 const App: React.VFC = () => {
   const [todo, setTodo] = useState<TodoProps>({
@@ -10,6 +11,7 @@ const App: React.VFC = () => {
     isCompleted: false,
     isEdit: false,
   })
+  const [completedTodos, setCompletedTodos] = useState<TodoProps[]>([])
 
   const hasTodo: boolean = todo.id !== 0
 
@@ -53,13 +55,33 @@ const App: React.VFC = () => {
     setTodo(newTodo)
   }
 
+  const completeTodo = () => {
+    const newCompletedTodo = {
+      id: todo.id,
+      text: todo.text,
+      isCompleted: true,
+      isEdit: false,
+    }
+    setCompletedTodos([
+      ...completedTodos,
+      newCompletedTodo
+    ])
+    setTodo({
+      id: 0,
+      text: '',
+      isCompleted: false,
+      isEdit: false,
+    })
+  }
+
   return (
     <div className="App">
       <button className="delete-button" onClick={deleteTodo} disabled={!hasTodo}>削除</button>
       {hasTodo && (
-        <Todo todo={todo} onToggleEditTodo={toggleEditTodo} onSaveTodo={saveTodo} />
+        <Todo todo={todo} onCompleteTodo={completeTodo} onToggleEditTodo={toggleEditTodo} onSaveTodo={saveTodo} />
       )}
       <AddTodoForm onAddTodo={addTodo} disabled={hasTodo} />
+      <CompletedTodoList completedTodos={completedTodos} />
     </div>
   );
 }
