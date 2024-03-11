@@ -3,6 +3,7 @@ import { AddTodoForm } from './components/AddTodoForm';
 import { Todo } from './components/Todo';
 import { TodoProps } from './types/todo';
 import { CompletedTodoList } from './components/CompletedTodoList';
+import { EditTodoForm } from './components/EditTodoForm';
 
 const initialState: TodoProps = {
   id: 0,
@@ -88,13 +89,20 @@ const App: React.VFC = () => {
 
   return (
     <div className="App">
-      <button className="delete-button" onClick={deleteTodo} disabled={!hasTodo}>削除</button>
-      {hasTodo && (
-        <Todo todo={todo} onCompleteTodo={completeTodo} onToggleEditTodo={toggleEditTodo} onSaveTodo={saveTodo} />
-      )}
-      <AddTodoForm onAddTodo={addTodo} disabled={hasTodo} />
-      <button className="all-delete-button" disabled={!hasCompletedTodos} onClick={deleteAllCompletedTodos}>全て削除</button>
-      <CompletedTodoList completedTodos={completedTodos} onDeleteCompletedTodo={deleteCompletedTodo} />
+      <div className="todo-area">
+        <button className="delete-button" onClick={deleteTodo} disabled={!hasTodo}>削除</button>
+        {hasTodo && (
+          !todo.isEdit ? 
+            <Todo todo={todo} onCompleteTodo={completeTodo} onToggleEditTodo={toggleEditTodo} />
+          :
+            <EditTodoForm todoText={todo.text} onToggleEditTodo={toggleEditTodo} onSaveTodo={saveTodo} />
+        )}
+        <AddTodoForm onAddTodo={addTodo} disabled={hasTodo} />
+      </div>
+      <div className="completed-todos-area">
+        <button className="all-delete-button" disabled={!hasCompletedTodos} onClick={deleteAllCompletedTodos}>全て削除</button>
+        <CompletedTodoList completedTodos={completedTodos} onDeleteCompletedTodo={deleteCompletedTodo} />
+      </div>
     </div>
   );
 }
