@@ -36,11 +36,28 @@ const App: React.VFC = () => {
     })
   }
 
+    const toggleEditTodo = (): void => {
+    setTodo({
+      ...todo,
+      isEdit: !todo.isEdit
+    })
+  }
+
+  const saveTodo = (todoText:string): void => {
+    const newTodo: TodoProps = {
+      ...todo,
+      text: todoText,
+      isEdit: false
+    }
+
+    setTodo(newTodo)
+  }
+
   return (
     <div className="App">
       <button className="delete-button" onClick={deleteTodo} disabled={!hasTodo}>削除</button>
       {hasTodo && (
-        <Todo todo={todo} />
+        <Todo todo={todo} onToggleEditTodo={toggleEditTodo} onSaveTodo={saveTodo} />
       )}
       <AddTodoForm onAddTodo={addTodo} disabled={hasTodo} />
     </div>
