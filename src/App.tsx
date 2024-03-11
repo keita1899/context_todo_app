@@ -26,8 +26,19 @@ const App: React.VFC = () => {
     setTodo(newTodo)
   }
 
+  const deleteTodo = (): void => {
+    if (!hasTodo) return 
+    setTodo({
+      id: 0,
+      text: '',
+      isCompleted: false,
+      isEdit: false,
+    })
+  }
+
   return (
     <div className="App">
+      <button className="delete-button" onClick={deleteTodo} disabled={!hasTodo}>削除</button>
       {hasTodo && (
         <Todo todo={todo} />
       )}
