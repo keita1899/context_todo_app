@@ -16,6 +16,7 @@ const App: React.VFC = () => {
   const [completedTodos, setCompletedTodos] = useState<TodoProps[]>([])
 
   const hasTodo: boolean = todo.id !== 0
+  const hasCompletedTodos: boolean = completedTodos.length > 0
 
   const addTodo = (todoText: string): void => {
     if (hasTodo) return
@@ -57,7 +58,7 @@ const App: React.VFC = () => {
     setTodo(newTodo)
   }
 
-  const completeTodo = () => {
+  const completeTodo = (): void => {
     const newCompletedTodo = {
       id: todo.id,
       text: todo.text,
@@ -76,9 +77,13 @@ const App: React.VFC = () => {
     })
   }
 
-  const deleteCompletedTodo = (id: number) => {
+  const deleteCompletedTodo = (id: number): void => {
     const newCompletedTodos = completedTodos.filter(todo => todo.id !== id)
     setCompletedTodos(newCompletedTodos)
+  }
+
+  const deleteAllCompletedTodos = (): void => {
+    setCompletedTodos([])
   }
 
   return (
@@ -88,6 +93,7 @@ const App: React.VFC = () => {
         <Todo todo={todo} onCompleteTodo={completeTodo} onToggleEditTodo={toggleEditTodo} onSaveTodo={saveTodo} />
       )}
       <AddTodoForm onAddTodo={addTodo} disabled={hasTodo} />
+      <button className="all-delete-button" disabled={!hasCompletedTodos} onClick={deleteAllCompletedTodos}>全て削除</button>
       <CompletedTodoList completedTodos={completedTodos} onDeleteCompletedTodo={deleteCompletedTodo} />
     </div>
   );
