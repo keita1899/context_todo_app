@@ -1,9 +1,5 @@
+import { Layout } from '../components/Layout'
+
 export const TodoPage = () => {
-  
-  
-  return (
-    <div>
-      TodoPage
-    </div>
-  )
+  return <Layout>TodoPage</Layout>
 }

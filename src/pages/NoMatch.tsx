@@ -1,9 +1,5 @@
+import { Layout } from '../components/Layout'
+
 export const NoMatch = () => {
-  
-  
-  return (
-    <div>
-      NoMatch
-    </div>
-  )
+  return <Layout>NoMatch</Layout>
 }

@@ -1,9 +1,5 @@
+import { Layout } from '../components/Layout'
+
 export const ProfilePage = () => {
-  
-  
-  return (
-    <div>
-      ProfilePage
-    </div>
-  )
+  return <Layout>ProfilePage</Layout>
 }

@@ -1,9 +1,5 @@
+import { Layout } from '../components/Layout'
+
 export const LoginPage = () => {
-  
-  
-  return (
-    <div>
-      LoginPage
-    </div>
-  )
+  return <Layout>LoginPage</Layout>
 }
